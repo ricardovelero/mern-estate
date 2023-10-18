@@ -6,7 +6,8 @@ import OAuth from "../components/OAuth"
 
 export default function Auth() {
   const [formData, setFormData] = useState({})
-  const { loading, error } = useSelector((state) => state.user)
+  const { error } = useSelector((state) => state.user)
+  const loading = false
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const location = useLocation()

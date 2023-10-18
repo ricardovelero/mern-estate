@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from "react-redux"
 import { authSuccess, authStart, authFailure } from "../redux/user/userSlice"
 
 export default function OAuth() {
-  const { loading, error } = useSelector((state) => state.user)
+  const { error } = useSelector((state) => state.user)
+  const loading = false
   const provider = new GoogleAuthProvider()
   const auth = getAuth(app)
   const dispatch = useDispatch()
