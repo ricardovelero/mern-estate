@@ -7,15 +7,15 @@ import {
   uploadBytesResumable,
 } from "firebase/storage"
 import { app } from "../firebase"
-// import {
-//   updateUserStart,
-//   updateUserSuccess,
-//   updateUserFailure,
-//   deleteUserFailure,
-//   deleteUserStart,
-//   deleteUserSuccess,
-//   signOutUserStart,
-// } from "../redux/user/userSlice"
+import {
+  updateUserStart,
+  updateUserSuccess,
+  updateUserFailure,
+  // deleteUserFailure,
+  // deleteUserStart,
+  // deleteUserSuccess,
+  // signOutUserStart,
+} from "../redux/user/userSlice"
 import { useDispatch } from "react-redux"
 import { Link } from "react-router-dom"
 
@@ -65,26 +65,26 @@ export default function Profile() {
   }
 
   const handleSubmit = async (e) => {
-    // e.preventDefault()
-    // try {
-    //   dispatch(updateUserStart())
-    //   const res = await fetch(`/api/user/update/${currentUser._id}`, {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(formData),
-    //   })
-    //   const data = await res.json()
-    //   if (data.success === false) {
-    //     dispatch(updateUserFailure(data.message))
-    //     return
-    //   }
-    //   dispatch(updateUserSuccess(data))
-    //   setUpdateSuccess(true)
-    // } catch (error) {
-    //   dispatch(updateUserFailure(error.message))
-    // }
+    e.preventDefault()
+    try {
+      dispatch(updateUserStart())
+      const res = await fetch(`/api/user/update/${currentUser._id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
+      const data = await res.json()
+      if (data.success === false) {
+        dispatch(updateUserFailure(data.message))
+        return
+      }
+      dispatch(updateUserSuccess(data))
+      setUpdateSuccess(true)
+    } catch (error) {
+      dispatch(updateUserFailure(error.message))
+    }
   }
 
   const handleDeleteUser = async () => {
@@ -167,9 +167,9 @@ export default function Profile() {
         <input
           type="password"
           placeholder="password"
-          onChange={handleChange}
           id="password"
           className="border p-3 rounded-lg"
+          onChange={handleChange}
         />
         <button
           disabled={loading}
@@ -189,6 +189,10 @@ export default function Profile() {
           Sign out
         </span>
       </div>
+      <p className="text-red-700 mt-5">{error && error}</p>
+      <p className="text-green-700 mt-5">
+        {updateSuccess ? "User is updated successfully!" : ""}
+      </p>
     </div>
   )
 }
