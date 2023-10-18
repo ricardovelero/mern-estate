@@ -6,8 +6,8 @@ import OAuth from "../components/OAuth"
 
 export default function Auth() {
   const [formData, setFormData] = useState({})
-  const { error } = useSelector((state) => state.user)
-  const loading = false
+  const { loading, error } = useSelector((state) => state.user)
+  // const loading = false
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const location = useLocation()
@@ -32,7 +32,6 @@ export default function Auth() {
         body: JSON.stringify(formData),
       })
       const data = await res.json()
-      console.log(data)
       if (data.success === false) {
         dispatch(authFailure(data.message))
         return
