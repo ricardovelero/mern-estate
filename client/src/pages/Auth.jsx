@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Link, useNavigate, useLocation } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { authStart, authSuccess, authFailure } from "../redux/user/userSlice"
+import OAuth from "../components/OAuth"
 
 export default function Auth() {
   const [formData, setFormData] = useState({})
@@ -76,6 +77,7 @@ export default function Auth() {
         >
           {loading ? "Loading..." : isSignup ? "Sign up" : "Sign In"}
         </button>
+        <OAuth />
       </form>
       <div className="flex gap-2 mt-5">
         {isSignup ? (
