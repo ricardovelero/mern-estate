@@ -8,8 +8,9 @@ export const signup = async (req, res, next) => {
   const hashedPassword = bcryptjs.hashSync(password, 10)
   const newUser = new User({ username, email, password: hashedPassword })
   try {
-    await newUser.save()
-    res.status(201).json("User created successfully")
+    const validUser = await newUser.save()
+    setToken(validUser, res)
+    // res.status(201).json("User created successfully")
   } catch (error) {
     next(error)
     // res.status(500).json(error.message)
@@ -29,16 +30,21 @@ export const signin = async (req, res, next) => {
       return next(errorHandler(401, "Wrong credentials"))
     }
 
-    const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET)
-    const { password: _password, ...rest } = validUser._doc
-    res
-      .cookie("access_token", token, {
-        httpOnly: true,
-        maxAge: 24 * 60 * 60 * 1000,
-      })
-      .status(200)
-      .json(rest)
+    setToken(validUser, res)
   } catch (error) {
     next(error)
   }
+}
+
+export const setToken = (validUser, res) => {
+  const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET)
+  const { password: _password, ...rest } = validUser._doc
+  res
+    .cookie("access_token", token, {
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000,
+      sameSite: "Strict",
+    })
+    .status(200)
+    .json(rest)
 }
