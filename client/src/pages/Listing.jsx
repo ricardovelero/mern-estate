@@ -56,7 +56,7 @@ export default function Listing() {
         <p className='text-center my-7 text-2xl'>Something went wrong!</p>
       )}
       {listing && !loading && !error && (
-        <div>
+        <>
           <Swiper navigation>
             {listing.imageUrls.map((url) => (
               <SwiperSlide key={url}>
@@ -145,7 +145,7 @@ export default function Listing() {
             )}
             {/* {contact && <Contact listing={listing} />} */}
           </div>
-        </div>
+        </>
       )}
     </main>
   );
